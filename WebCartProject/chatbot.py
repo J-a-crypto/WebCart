@@ -48,7 +48,8 @@ import gradio
 #
 # gr.ChatInterface(predict).queue().launch()
 
-openai.api_key = "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"
+# The api key will be different because of reasons, but this key is how we will access the chatbot, be sure not the post the key in the github. 
+#openai.api_key = "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"
 
 
 
