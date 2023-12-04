@@ -20,10 +20,10 @@ const techProducts = [
         imageURL: 'headphones.jpg'
     },
     {
-        name: 'Poop',
-        description: 'poop',
-        price: 1.00,
-        imageURL: 'poop.jpg'
+        name: 'VR Headset',
+        description: 'Well desgined virtual reality experience.',
+        price: 400.00,
+        imageURL: 'vr-headset.jpg'
     },
     {
         name:'Nose Ring',
