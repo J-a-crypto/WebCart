@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebCart: Your Ultimate Online TechShop Destination</title>
+    <link rel="stylesheet" href=".\WebCartProject\static\css\login-page.css">
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+
+    <div class="login-container">
+        <h1>WebCart</h1>
+		<h2>Your Ultimate Online TechShop Destination</h2>
+        <div class="form-group">
+            <button class="open-login-popup">Sign In</button>
+        </div>
+        <div class="form-group">
+            <button class="open-signup-popup">Sign Up</button>
+        </div>
+    </div>
+
+    <!-- Login Popup -->
+    <div id="loginPopup" class="popup">
+        <h2>Login</h2>
+        <div class="form-group">
+            <label for="emailLogin">Email:</label>
+            <input type="email" id="emailLogin" required>
+        </div>
+        <div class="form-group">
+            <label for="passwordLogin">Password:</label>
+            <input type="password" id="passwordLogin" required>
+        </div>
+			<button class="login">Login</button>
+    </div>
+
+    <!-- Signup Popup -->
+    <div id="signupPopup" class="popup">
+        <h2>Sign Up</h2>
+        <div class="form-group">
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" required>
+        </div>
+        <div class="form-group">
+            <label for="emailSignup">Email:</label>
+            <input type="email" id="emailSignup" required>
+        </div>
+        <div class="form-group">
+            <label for="passwordSignup">Password:</label>
+            <input type="password" id="passwordSignup" required>
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" required>
+        </div>
+		<button class="signup">Sign Up </button>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay" class="overlay"></div>
+
+	<script>
+        $(document).ready(function() {
+            $('.open-login-popup').click(function() {
+                $('#loginPopup').show();
+                $('#overlay').show();
+            });
+
+            $('.open-signup-popup').click(function() {
+                $('#signupPopup').show();
+                $('#overlay').show();
+            });
+
+            $('.close-popup').click(function() {
+                $('.popup').hide();
+                $('#overlay').hide();
+            });
+
+            $('.login').click(function() {
+                // Implement login logic here
+                alert('You have logged in!');
+				window.location.href='browse.html';
+                closePopup();
+            });
+
+            $('.signup').click(function() {
+                // Implement signup logic here
+                alert('You have signed up!');
+                window.location.href='browse.html';
+                closePopup();
+            });
+        });
+
+        function closePopup() {
+            $('.popup').hide();
+            $('#overlay').hide();
+        }
+    </script>
+
+</body>
+</html>
+
+
+
+
+
