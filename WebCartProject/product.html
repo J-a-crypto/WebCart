@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebCart: Your Ultimate Online TechShop Destination</title>
+    <link rel="stylesheet" href="style.css">
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+
+    <div class="login-container">
+        <h1>WebCart</h1>
+		<h2>Your Ultimate Online TechShop Destination</h2>
+        <div class="form-group">
+            <button class="open-login-popup">Sign In</button>
+        </div>
+        <div class="form-group">
+            <button class="open-signup-popup">Sign Up</button>
+        </div>
+    </div>
+    <div id="productList">
+        {% for product in products %}
+        <div class="products">
+            <img src ="{{product['imageURL']}}" alt = "{{product['name']}}" />
+            <h3>{{product['name']}}</h3>
+            <p>{{product['description']}}</p>
+            <p>Price: ${{product['price']}}</p>
+            <button class = "addToCart" data-index="{{loop.index0}}">Add to Cart</button>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="product-display">
+        <!-- This is where the products will be displayed -->
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready( function(){
+        $(".addToCart").on("click", function() {
+            const index = $(this).data("index");
+            $.ajax({
+                url: '/add to cart/${index}',
+                method: 'GET',
+                success: function(response) {
+                    alert(response.message);
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            })
+        })
+    })
+       
+    
+</script>
+
+</body>
+</html>
