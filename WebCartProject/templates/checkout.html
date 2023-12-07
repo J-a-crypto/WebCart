@@ -1,33 +1,36 @@
+<!-- checkout.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebCart Project</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Checkout</title>
 </head>
 <body>
-
-<div class="container">
-    <h1>Results</h1>
-
-    <!-- <button id="addProductBtn">Add New Product</button> -->
-
-    <table id="productTable">
-        <thead>
+    <h2>Checkout</h2>
+    <div id="cart">
+        <table>
             <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Description</th>
+                <th>Product</th>
+                <th>Quantity</th>
                 <th>Price</th>
-                <th>Total Price</th>
+                <th>Total</th>
             </tr>
-        </thead>
-        <tbody>
-            <!-- Product list will be displayed here -->
-        </tbody>
-    </table>
-</div>
+            {% for product_id, quantity in cart.items() %}
+                <tr>
+                    <td>{{ products[product_id].name }}</td>
+                    <td>{{ quantity }}</td>
+                    <td>${{ products[product_id].price }}</td>
+                    <td>${{ quantity * products[product_id].price }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <p>Total Price: ${{ total_price }}</p>
+    </div>
+</body>
+</html>
+
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="script.js"></script>
