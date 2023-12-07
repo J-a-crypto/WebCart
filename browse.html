@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebCart: Browse Tech Products</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/browse-page.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h2>WEBCART: BROWSE TECH PRODUCTS</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Account</a></li>
+                    <li><a href="#">Cart</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="product-list">
+            <div id="productList">
+                {% for product in products %}
+                <div class="product">
+                    <img src="{{ product.imageURL }}">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description }}</p>
+                    <p>Price: ${{ product.price }}</p>
+                    <button>Add to Cart</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="chatbot-section">
+            <h1>Chatbot</h1>
+            <div id="filters">
+                <div class="checkbox-container">
+                    <input type="checkbox" name="apple">
+                    <label for="apple">Apple</label>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" name="samsung">
+                    <label for="samsung">Samsung</label>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" name="laptop">
+                    <label for="laptop">Laptop</label>
+                </div>
+
+            </div>
+        </div>
+</body>
+<script>
+    $(document).ready(function () {
+        $('input[type="checkbox"]').change(function (){
+            let filter = [];
+
+            $('input[type="checkbox"]:checked').each(function () {
+                filters.push($(this).attr('name'));
+            })
+
+            $.ajax({
+                type: 'POST',
+                url: '/filter_products',
+                data: JSON.stringify({filters: filters}),
+                contentType: 'application/json;charset=UTF-8',
+                success: function(response){
+                    const productList = document.getElementById('productList')
+                    productList.innerHTML = '';
+
+                    response.forEach(product =>{
+                        const productElement = document.createElement('div');
+                        productElement.classList.add('product');
+
+                        productElement.innerHTML = `
+                                <img src = "$(product.imageURL)" alt="$(product.name)">
+                                <h3>$(product.name)</h3>
+                                <p>$(product.description)</p>
+                                <p>Price:$ $(product.price)</p>
+                                <button>Add to Cart</button>
+                        `;
+                        productList.appendChild(productElement);
+                    });
+                },
+                error: function(error){
+                    console.log('Error: ', error);
+                }
+            })
+        })
+    });
+</script>
+
+</html>
