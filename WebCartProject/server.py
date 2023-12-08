@@ -28,6 +28,29 @@ def get_all_products(connection):
         )
     return response
 
+
+def get_products_by_company(connection, company_name):
+    cursor = connection.cursor()
+
+    query = "SELECT * FROM shop.products WHERE company = %s"
+    cursor.execute(query, (company_name,))
+
+    response = []
+
+    for (id, name, description, price, imageURL, company) in cursor:
+        response.append(
+            {
+                'id': id,
+                'name': name,
+                'description': description,
+                'price': price,
+                'imageURL': imageURL,
+                'company': company,
+            }
+        )
+
+    return response
+
 def get_product_by_id(connection, product_id):
     cursor = connection.cursor()
 
@@ -74,15 +97,24 @@ def get_products():
    if 'logged_in' not in session or not session['logged_in']:
        return redirect(url_for('login'))
    
-   products = get_all_products(connection)
+   company_filter = request.args.get('company')
+   if company_filter:
+       products = get_products_by_company(connection, company_filter)
+   else:
+        products = get_all_products(connection)
    return render_template('browse.html', products=products)
 
   # API endpoint to handle adding products to cart
 @app.route('/add_to_cart/<product_id>', methods=['GET'])
 def add_to_cart(product_id):
-    product = get_product_by_id(connection, product_id)
+    product_id_str = str(product_id)
+    product = get_product_by_id(connection, product_id_str)
     if product:
      # Initialize cart if not present in session
+        session['cart'] =[]
+        if 'cart' not in session:
+            session['cart']=[]
+            
         session['cart'].append(product)
         
         print("cart contents:", session['cart'])
@@ -96,8 +128,10 @@ def add_to_cart(product_id):
 @app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
 
-    cart = session.get('cart', [])  # Retrieve the user's cart from the session
+    cart = session.get('cart',[])  # Retrieve the user's cart from the session
 
+    total_price = sum(product['price'] for product in cart)
+    
     print('Cart contents:', cart)
     app.logger.debug("cart conntents: %s", cart)
     
@@ -107,7 +141,7 @@ def checkout():
         session['cart'] = []
         return redirect(url_for('get_products'))
 
-    return render_template('checkout.html', cart=cart)
+    return render_template('checkout.html', cart=cart, total_price=total_price)
 
 if __name__ == '__main__':
     app.run(debug=True)
