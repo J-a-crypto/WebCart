@@ -104,6 +104,8 @@ def get_products():
         products = get_all_products(connection)
    return render_template('browse.html', products=products)
 
+ 
+         
   # API endpoint to handle adding products to cart
 @app.route('/add_to_cart/<product_id>', methods=['GET'])
 def add_to_cart(product_id):
@@ -111,10 +113,8 @@ def add_to_cart(product_id):
     product = get_product_by_id(connection, product_id_str)
     if product:
      # Initialize cart if not present in session
-        session['cart'] =[]
-        if 'cart' not in session:
-            session['cart']=[]
             
+        session['cart']=[]
         session['cart'].append(product)
         
         print("cart contents:", session['cart'])
@@ -144,5 +144,6 @@ def checkout():
     return render_template('checkout.html', cart=cart, total_price=total_price)
 
 if __name__ == '__main__':
+    
     app.run(debug=True)
     
