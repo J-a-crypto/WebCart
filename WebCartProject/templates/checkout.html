@@ -5,32 +5,74 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout</title>
+    <link rel="stylesheet" type= "text/css" href="/static/css/checkout-page.css">
 </head>
 <body>
-    <h2>Checkout</h2>
-    <div id="cart">
-        <table>
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
-            </tr>
-            {% for product_id, quantity in cart.items() %}
-                <tr>
-                    <td>{{ products[product_id].name }}</td>
-                    <td>{{ quantity }}</td>
-                    <td>${{ products[product_id].price }}</td>
-                    <td>${{ quantity * products[product_id].price }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-        <p>Total Price: ${{ total_price }}</p>
+
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h2>WEBCART: CHECKOUT</h2>
+            </div>
+            <nav>
+                <ul>
+                <li onclick="openNewTab()">CHATBOT</li>
+                    <li><a href="{{ url_for('get_products')}}">Home</a></li>
+                    <li><a href="{{ url_for('checkout') }}">Cart</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div id="cart-items">
+        {% if cart %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in cart %}
+                        <tr>
+                            <td><img src="{{ product.imageURL }}"> </td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.description }}</td>
+                            <td>${{ product.price }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <!-- Display Total Price -->
+            <div id="total-price">
+                <p>Total Price: ${{ total_price }}</p>
+            </div>
+
+            <form action="/checkout" method="post">
+                <!-- Additional checkout form fields go here -->
+                <input type="submit" value="Place Order">
+            </form>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
     </div>
+
+
+    <script>
+        function openNewTab() {
+            // You can replace the URL with the desired destination
+            var newTabUrl = 'http://127.0.0.1:7860';
+    
+            // Open a new tab/window using window.open
+            window.open(newTabUrl, '_blank');
+        }
+    </script>
 </body>
 </html>
-
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="script.js"></script>
